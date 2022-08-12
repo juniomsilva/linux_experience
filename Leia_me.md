@@ -1,0 +1,184 @@
+Arquivo dos grupos de usuários:
+/etc/groups
+
+Arquivo que contém quem tem acesso de sudo:
+/etc/sudoers
+
+Alterar senha usuário
+sudo passwd root
+
+LIberar acesso root via ssh
+/etc/ssh/sshd_config
+
+Mostrar hora e data no comando “history”
+export HISTTIMEFORMAT="%c "
+
+Não armazena os comandos digitados
+set +o history
+
+Armazena os comandos digitados
+set -o history
+
+Altera o tamanho do histórico de comando
+more .bashrc
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+
+
+Criando usuários no linux
+useradd joao -m -c "João da Silva" -s /bin/bash
+    -m criar pasta de usuário
+    -c comentário ou nome do usuário
+    -s terminal 
+
+useradd guest -m -c "convidado" -e 26/08/2022
+    -e data de expiração
+
+useradd convidado -c "Convidado especial" -s /bin/bash -m -p $(openssl passwd  Senha123)
+    -p informar senha de acesso
+
+Deletar usuário
+userdel -rf joao
+
+Alterar senha
+passwd joao
+
+Colocando shell para o usuário
+chsh -s /bin/bash joao
+
+Alterando parâmetros e configurações de usuário existentes
+usermod guest -s /bin/bash
+
+Solicitar alteração de senha
+passwd guest -e
+passwd: password expiry information changed.
+
+Verificar usuários criados
+more /etc/passwd
+
+Criando usuários em lote via script
+vim criar_user.sh
+
+#!/bin/bash
+
+echo "Criando usuários do sistemas..."
+
+useradd guest10 -c "Convidado 10" -s /bin/bash -m -p $(openssl passwd  Senha123)
+passwd guest10 -e
+useradd guest11 -c "Convidado 11" -s /bin/bash -m -p $(openssl passwd  Senha123)
+passwd guest11 -e
+useradd guest12 -c "Convidado 12" -s /bin/bash -m -p $(openssl passwd  Senha123)
+passwd guest12 -e
+useradd guest13 -c "Convidado 13" -s /bin/bash -m -p $(openssl passwd  Senha123)
+passwd guest13 -e
+
+echo "Finalizado!!!"
+
+
+
+Adicionar usuário a grupos
+useradd mariana -c "Mariana dos Anjos" -s /bin/bash -m -p $(openssl passwd  Senha123)
+usermod -G adm,sudo mariana
+
+Criando grupos
+groupadd GRP_ADM
+groupdel GRP_ADM
+useradd rodrigo -c "Rodrigo Silva" -m -s /bin/bash -p $(openssl passwd  Senha123) -G GRP_ADM
+
+Remover usuário de um grupo
+gpasswd -d mariana GRP_ADM
+
+
+Sistema de Permissão
+Alterando dono e grupo de diretório
+chown debora:GRP_ADM /adm/
+
+Alterando permissão de pasta ou arquivo
+chmod 750 adm
+
+
+Dando permissão de execução de script para o dono
+chmod +x date.sh
+chmod -x date.sh/
+
+
+
+
+
+
+GERENCIAMENTO DE DISCO
+
+
+Visualizar os discos:
+lsblk
+fdisk -l
+
+Particionar disco
+fdisk /dev/sdb
+m
+n
+p
+1
+“enter”
+“enter”
+
+Formatar disco
+mkfs.ext4 /dev/sdb
+
+Montar disco
+cd /mnt
+mkdir disco2
+mount /dev/sdb /mnt/disco2/
+umount /dev/sdb
+
+Montar automaticamente disco após reinicializar
+vim /etc/fstab
+/dev/sdb /disk2 ext4 defaults 0 0
+disco - caminho montagem - extensão - padrão - padrão backup 
+
+
+Copiando arquivos
+cp /home/junio/* /disk2/
+cp -i : Perguntar se vai substituir
+cp -r : Copiar recursivamente
+cp -v : Mostrar o que foi copiado
+
+Movendo arquivo
+mv -i -r /home/junio/* /disk2/
+mv -i : Perguntar se vai substituir
+mv -v : Mostrar o que foi copiado 
+Renomear arquivos
+mv bancodedados.mdf bancodedados_new.mdf
+
+
+Iniciando, visualizando e encerrando um processo
+ps aux
+a (processo de todos os usuários)
+u (fornece o nome do usuário e o horário que começou)
+x (processos executados fora do console)
+
+Encerrar processo
+kill 1258
+killall chrome
+
+Usuários logados
+w (visualizar)
+who -a (Mostra PIN)
+kill 1378 (derrubar sessão)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
